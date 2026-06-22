@@ -1,0 +1,15 @@
+# Secrets — never commit
+.env
+*.env
+*.key
+*authkey*
+tskey-*
+secrets/
+
+# Tailscale state (machine-specific; lives on the router, not in git)
+*.state
+tailscaled.state
+
+# Local noise
+*.log
+.DS_Store
