@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# Deploy to: /jffs/scripts/firewall-start   (chmod +x)
+#
+# Kernel-mode Tailscale inserts iptables chains. Merlin flushes and rebuilds
+# iptables whenever its firewall restarts (boot, WAN reconnect, some setting
+# changes), wiping those chains. This reinstates them.
+#
+# The bare `tailscale up` re-applies the prefs saved in state, so flags are not
+# duplicated here. A lighter alternative (no tunnel bounce) is to toggle the
+# netfilter mode instead — see docs/troubleshooting.md.
+
+if [ -x /opt/bin/tailscale ]; then
+    tailscale down
+    tailscale up
+fi

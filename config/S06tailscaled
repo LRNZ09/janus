@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# Deploy to: /opt/etc/init.d/S06tailscaled
+#
+# Kernel-mode Tailscale daemon for Asuswrt-Merlin + Entware.
+# State is kept on the Entware/USB mount so it survives a firmware reflash.
+#
+# WARNING: `opkg upgrade tailscale` overwrites this file. Reapply afterwards,
+# then `/opt/etc/init.d/S06tailscaled restart`.
+#
+# For userspace mode (the fallback), append `--tun=userspace-networking` to ARGS
+# and remove /jffs/scripts/firewall-start.
+
+ENABLED=yes
+PROCS=tailscaled
+PRECMD="modprobe tun"
+ARGS="--state=/opt/var/tailscaled.state --statedir=/opt/var/lib/tailscale"
+PREARGS="nohup"
+DESC=$PROCS
+PATH=/opt/sbin:/opt/bin:/opt/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+. /opt/etc/init.d/rc.func
